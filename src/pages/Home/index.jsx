@@ -27,20 +27,24 @@ function Home() {
       const savedNotes = JSON.parse(savedNotesJSON);
       setNotes(savedNotes);
     }
-  }, []);
+    
+  },[]);
 
   const handleAddGroup = (newGroup) => {
     setGroups([...groups, newGroup]);
+    
   };
 
   const handleSelectGroup = (selectedGroup) => {
     setSelectedGroup(selectedGroup);
     setShowInfo(!showInfo); // Toggle the showInfo state
+   
   };
 
   const handleDeleteGroup = (updatedGroups) => {
     setGroups(updatedGroups);
     window.localStorage.setItem("groups", JSON.stringify(updatedGroups));
+      
   };
 
   const onAddNote = (newNote) => {
@@ -60,7 +64,7 @@ function Home() {
       id: Date.now(),
       groupId: selectedGroup.id,
       text: noteText.trim(),
-      date: new Date().toLocaleString(),
+      date: formatDateTime(new Date()),
     };
     setNotes([...notes, newNote]);
     onAddNote(newNote);
@@ -68,16 +72,32 @@ function Home() {
     setNoteText("");
   };
 
-  function stringAvatar(name, color) {
-    const bgColor = color;
-    const initials = name.split(" ").map((part) => part[0]).join("");
-
+  const stringAvatar = (name, color) => {
+    const bgColor = color || '#000'; // Default color if not provided
+    const initials = name
+      .split(" ")
+      .map((part) => part[0])
+      .join("");
+      
     return (
       <div className="avatar" style={{ backgroundColor: bgColor }}>
         {initials}
       </div>
     );
-  }
+  };
+
+  const formatDateTime = (dateTimeString) => {
+    const dateTime = new Date(dateTimeString);
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+    const formattedDate = dateTime.toLocaleDateString('en-IN', options);
+    const hours = dateTime.getHours();
+    const minutes = dateTime.getMinutes();
+    const amPm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+    const formattedTime = `${formattedHours}:${minutes < 10 ? '0' : ''}${minutes} ${amPm}`;
+    return `${formattedDate} . ${formattedTime}`;
+    
+  };
 
   return (
     <div className="home">
@@ -93,46 +113,47 @@ function Home() {
         </div>
 
         <div className="notes">
-         
-            {showInfo && selectedGroup && (
-              <div className="Infobar">
-                <div className="info">
-                {stringAvatar(
-                  selectedGroup.name,
-                  groupColors[selectedGroup.id]
-                )}
+          { selectedGroup && (
+            <div className="Infobar">
+              <div className="info">
+              {stringAvatar(selectedGroup.name, selectedGroup.color)}
+
                 {selectedGroup.name}
-              </div></div>
-            )}
-          
+              </div>
+            </div>
+          )}
+
           <div className="body">
             <div className="notesbox">
-            <div className={showInfo ? "noteslist" : "noteslist hidden"}>
-              <ul>
-                {showInfo && selectedGroup &&
-                  notes
-                    .filter((note) => note.groupId === selectedGroup.id)
-                    .map((note) => (
-                      <li className="notesli" key={note.id}>
-                        <p>{note.text}</p>
-                        <p>{note.date}</p>
-                      </li>
-                    ))}
-              </ul>
+              <div className={showInfo ? "noteslist" : "noteslist hidden"}>
+                <ul>
+                  {
+                    selectedGroup &&
+                    notes
+                      .filter((note) => note.groupId === selectedGroup.id)
+                      .map((note) => (
+                        <li className="notesli" key={note.id}>
+                          <p className="text">{note.text}</p>
+                          <p className="date">{note.date}</p>
+                        </li>
+                      ))}
+                </ul>
+              </div>
             </div>
-            </div>
-            {showInfo &&
-            <div className="input">
-              <input
-                type="text"
-                placeholder="Type your note here..."
-                value={noteText}
-                onChange={(e) => setNoteText(e.target.value)}
-              />
-              <button onClick={handleAddNote} disabled={!noteText.trim()}>
-             
-              </button>
-            </div>}
+            { selectedGroup&& (
+              <div className="input">
+                <input
+                  type="text"
+                  placeholder="Type your note here..."
+                  value={noteText}
+                  onChange={(e) => setNoteText(e.target.value)}
+                />
+                <button
+                  onClick={handleAddNote}
+                  disabled={!noteText.trim()}
+                ></button>
+              </div>
+            )}
           </div>
         </div>
       </div>
