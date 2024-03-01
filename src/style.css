@@ -15,7 +15,7 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
-  
+
   .sidebar {
     flex: 1;
     font-family: Roboto;
@@ -24,7 +24,7 @@ body {
     position: relative;
   }
 
-  .sidebar li {
+  .groupli {
     display: flex;
     padding: 15px;
     font-family: Roboto;
@@ -38,7 +38,7 @@ body {
     position: relative;
   }
 
-  li:hover {
+  .groupli:hover {
     background-color: #2f2f2f2b;
     border-radius: 10px;
   }
@@ -93,7 +93,7 @@ body {
   .popup-content {
     background-color: white;
     padding: 30px;
-    
+
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: left;
@@ -188,11 +188,49 @@ body {
   .notes {
     flex: 2.5;
     background-color: #dae5f5;
-    /* position: relative; */
+    position: relative;
     display: flex;
     flex-direction: column;
   }
+  .dash {
+    height: 35vh;
+    position: absolute;
+    top: 15vh;
+    right: 20vw;
+  }
+  .dash img {
+    height: 100%;
+    width: 100%;
+  }
+  .notes h1 {
+    position: absolute;
+    top: 45vh;
+    right: 30vw;
+    
+  }
+  .notesp {
+    position: absolute;
+    top: 52vh;
+    right: 20.5vw;
+    font-weight: 400;
+    font-size: 18px;
+  }
 
+  .note img {
+    position: absolute;
+    bottom: 0;
+    right: 20.5vw;
+  }
+  h6 {
+    position: absolute;
+    bottom: 0;
+    right: 32vw;
+    font-size: 14px;
+    font-weight: 400;
+    img {
+      height: 12px;
+    }
+  }
   .notes .Infobar {
     height: 80px;
     background-color: #001f8b;
@@ -249,14 +287,14 @@ body {
     top: 35px;
     right: 0px;
     background-color: #ffffff;
-    background-image: url("./assets/Vector1.png"); /* Set image for enabled state */
-    background-repeat: no-repeat; /* Prevent image from repeating */
+    background-image: url("./assets/Vector1.png");
+    background-repeat: no-repeat; 
     background-position: center;
   }
 
   .input button:disabled {
-    background-image: url("./assets/Vector.png"); /* Set image for enabled state */
-    background-repeat: no-repeat; /* Prevent image from repeating */
+    background-image: url("./assets/Vector.png"); 
+    background-repeat: no-repeat; 
     background-position: center;
   }
 
@@ -278,24 +316,24 @@ body {
     overflow-y: auto;
     /* position: relative; */
   }
-  .notesli{
+  .notesli {
     position: relative;
   }
-  
+
   .text {
     font-size: 15px;
     padding: 30px;
     font-weight: 400;
     padding-bottom: 50px;
-    
   }
   .date {
     font-size: 10px;
-    position: absolute; /* Position absolutely */
-    bottom: 0; /* Align to the bottom */
-    right: 0; /* Align to the right */
-    padding: 10px; /* Add some padding */
-    
-    border-top-left-radius: 5px; /* Add some border radius for style */
+    position: absolute; 
+    bottom: 0; 
+    right: 0;
+    padding: 10px;
+
+    border-top-left-radius: 5px; 
   }
 }
+

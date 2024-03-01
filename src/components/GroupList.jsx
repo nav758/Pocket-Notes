@@ -1,12 +1,11 @@
 /* eslint react/prop-types: 0 */
 import { useState, useEffect } from "react";
-// import Inputs from "./Inputs";
 function GroupList({ groups, onAddGroup, onDeleteGroup, onSelectGroup }) {
   const [newGroupName, setNewGroupName] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [selectedColor, setSelectedColor] = useState("");
   const [groupColors, setGroupColors] = useState({});
-  const [group, setGroups] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState(null);
   useEffect(() => {
     const savedGroups = localStorage.getItem("groups");
     if (savedGroups) {
@@ -38,10 +37,16 @@ function GroupList({ groups, onAddGroup, onDeleteGroup, onSelectGroup }) {
     }
   };
 
+  const handleSelectGroup = (selectedGroup) => {
+    onSelectGroup(selectedGroup)
+    
+  };
   const handleDeleteGroup = (groupId) => {
     const updatedGroups = groups.filter((group) => group.id !== groupId);
     onDeleteGroup(updatedGroups);
+    setSelectedGroup(!selectedGroup);
     window.localStorage.setItem("groups", JSON.stringify(updatedGroups));
+    
   };
 
   function stringAvatar(name, color) {
@@ -74,18 +79,21 @@ function GroupList({ groups, onAddGroup, onDeleteGroup, onSelectGroup }) {
     <div className="group-list">
       <ul className="group-scrollable-list">
         {groups.map((group) => (
-          <li key={group.id} onClick={() => onSelectGroup(group)}>
+          <li key={group.id}>
+           <div className="groupli" onClick={() => handleSelectGroup(group)}>
             {stringAvatar(group.name, groupColors[group.id])}
             {group.name}
+            </div>
             <button
               onClick={() => handleDeleteGroup(group.id)}
               style={{
-                position: "absolute",
+                position: "relative",
                 border: "none",
                 backgroundColor: "black",
                 borderRadius: "45%",
                 color: "#fff",
-                right: "20px",
+                bottom: "50px",
+                left:"150px",
               }}
             >
               X
